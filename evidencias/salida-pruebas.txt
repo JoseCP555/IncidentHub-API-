@@ -1,0 +1,78 @@
+
+> incidenthub-api@1.0.0 test
+> node --import tsx --test --test-reporter=spec tests/incidents.api.test.ts
+
+[2026-10-08T21:23:17.146Z] GET /api/incidents
+▶ IncidentHub API - pruebas mínimas obligatorias
+  ✔ 01 GET /api/incidents devuelve 200 con todos los incidentes (35.212587ms)
+[2026-10-08T21:23:17.158Z] GET /api/incidents/1
+  ✔ 02 GET /api/incidents/1 devuelve 200 para un incidente existente (3.946503ms)
+[2026-10-08T21:23:17.161Z] GET /api/incidents/999
+  ✔ 03 GET /api/incidents/999 devuelve 404 para un incidente inexistente (3.428012ms)
+[2026-10-08T21:23:17.164Z] GET /api/incidents/abc
+  ✔ 04 GET /api/incidents/abc devuelve 400 por id inválido (4.522717ms)
+[2026-10-08T21:23:17.187Z] POST /api/incidents
+  ✔ 05 POST /api/incidents con datos válidos devuelve 201 y genera id, status y createdAt (27.018222ms)
+[2026-10-08T21:23:17.197Z] POST /api/incidents
+  ✔ 06 POST sin título devuelve 400 (6.117613ms)
+[2026-10-08T21:23:17.203Z] POST /api/incidents
+  ✔ 07 POST con prioridad inválida (SUPER_IMPORTANT) devuelve 400 (3.416177ms)
+[2026-10-08T21:23:17.206Z] POST /api/incidents
+  ✔ 08 POST con estimatedMinutes negativo devuelve 400 (3.335241ms)
+[2026-10-08T21:23:17.210Z] POST /api/incidents
+  ✔ 09 POST CRITICAL con 180 minutos devuelve 400 (Reto 4) (3.454008ms)
+[2026-10-08T21:23:17.215Z] PUT /api/incidents/1
+  ✔ 10 PUT /api/incidents/1 con datos válidos devuelve 200 (5.067404ms)
+[2026-10-08T21:23:17.218Z] PUT /api/incidents/999
+  ✔ 11 PUT /api/incidents/999 devuelve 404 (3.283774ms)
+[2026-10-08T21:23:17.222Z] PATCH /api/incidents/1/status
+  ✔ 12 PATCH /api/incidents/1/status OPEN → IN_PROGRESS devuelve 200 (3.38755ms)
+[2026-10-08T21:23:17.227Z] PATCH /api/incidents/3/status
+  ✔ 13 PATCH /api/incidents/3/status IN_PROGRESS → RESOLVED devuelve 200 (4.755103ms)
+[2026-10-08T21:23:17.232Z] PATCH /api/incidents/5/status
+  ✔ 14 PATCH RESOLVED → OPEN devuelve 400 (Reto 5) (3.038021ms)
+[2026-10-08T21:23:17.236Z] DELETE /api/incidents/4
+  ✔ 15 DELETE sin token devuelve 401 (3.610064ms)
+[2026-10-08T21:23:17.238Z] DELETE /api/incidents/4
+  ✔ 16 DELETE con technician-token devuelve 403 (2.445695ms)
+[2026-10-08T21:23:17.241Z] DELETE /api/incidents/3
+  ✔ 17 DELETE con instructor-token devuelve 204 (3.434801ms)
+[2026-10-08T21:23:17.244Z] GET /api/planets
+  ✔ 18 GET /api/planets (ruta inexistente) devuelve 404 (1.842552ms)
+[2026-10-08T21:23:17.246Z] GET /api/incidents/critical
+  ✔ 19 GET /api/incidents/critical devuelve 200 solo con incidentes CRITICAL (1.974027ms)
+[2026-10-08T21:23:17.248Z] GET /api/incidents/stats
+  ✔ 20 GET /api/incidents/stats devuelve 200 con métricas calculadas (1.981951ms)
+✔ IncidentHub API - pruebas mínimas obligatorias (130.341292ms)
+[2026-10-08T21:23:17.251Z] GET /api/incidents/2
+▶ IncidentHub API - pruebas adicionales
+  ✔ A1 Logger y RequestInfo no alteran la respuesta de GET (solo enriquecen la petición) (2.84584ms)
+[2026-10-08T21:23:17.254Z] POST /api/incidents
+  ✔ A2 El cliente no puede enviar id ni status al crear: el servidor los genera (3.939723ms)
+[2026-10-08T21:23:17.259Z] GET /api/incidents/4.5
+[2026-10-08T21:23:17.261Z] GET /api/incidents/-3
+[2026-10-08T21:23:17.262Z] GET /api/incidents/0
+  ✔ A3 Id con decimal, negativo o cero devuelve 400 (5.379052ms)
+[2026-10-08T21:23:17.265Z] PATCH /api/incidents/1/status
+  ✔ A4 PATCH con estado desconocido (DONE) devuelve 400 (3.353359ms)
+[2026-10-08T21:23:17.269Z] PATCH /api/incidents/1/status
+  ✔ A5 PATCH sin token devuelve 401 (2.840891ms)
+[2026-10-08T21:23:17.271Z] DELETE /api/incidents/4
+  ✔ A6 Token inválido devuelve 401 (1.622288ms)
+[2026-10-08T21:23:17.273Z] PUT /api/incidents/2
+  ✔ A7 PUT CRITICAL con más de 60 minutos devuelve 400 (Reto 4 aplicada también a PUT) (1.965771ms)
+[2026-10-08T21:23:17.275Z] POST /api/incidents
+  ✔ A8 Body JSON mal formado devuelve 400 Malformed JSON body (2.656191ms)
+[2026-10-08T21:23:17.277Z] GET /api/incidents/pending
+  ✔ A9 GET /pending no incluye incidentes RESOLVED (Reto 2) (1.74134ms)
+[2026-10-08T21:23:17.279Z] DELETE /api/incidents/abc
+  ✔ A10 DELETE con id inválido y token de admin devuelve 400 (1.496254ms)
+✔ IncidentHub API - pruebas adicionales (30.391046ms)
+ℹ tests 30
+ℹ suites 2
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 422.735408
